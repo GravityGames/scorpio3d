@@ -1,0 +1,25 @@
+Scorpio 3D Game Engine Credits:
+
+LWJGL - Caspian Rychlik-Prince
+    Brian Matzon
+    Elias Naur
+    Ioannis Tsakpinis
+    Niels Jørgensen
+    Tristan Campbell
+    Gregory Pierce
+    Luke Holden
+    Erik Duijs
+    Mark Bernard
+    Jos Hirth
+    Kevin Glass
+    Atsuya Takagi
+    kappaOne
+    Simon Felix
+    Ryan McNally
+    Ciardhubh
+    Jens von Pilgrim
+    Ruben Garat
+    Lev Povalahev [OpenGL extensions]
+    Endolf [Nightly builds and JInput]
+
+TWL PNG Loader - Matthias Mann

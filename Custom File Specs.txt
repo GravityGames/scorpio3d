@@ -1,0 +1,41 @@
+Hey! Want to use .obg .tbg and .spal files to save MEGA amounts of space on your graphics? Well, here's the official documentation on the formats, so you don't have to spend time looking at TextureLoader.java to figure out how! A word of warning however, you'll need to use a hex editor to create them. They'll probably be an editor for them eventually, if not made by me, then made by someone else. In the meantime, if you can't figure out how to make them with these specifications and a hex editor, you're better off using PNGs for now. Also, keep in mind that these files were made for two types of graphics in mind, low color GUIs and pixel art. I eventually plan to make versions with larger numbers of colors, but .obgs and .tbgs only support 2 and 4 colors respectively, and if you want transparency, you'll have to sacrifice one. Also, you'll notice that there's only one byte not related to the header (except for in .spal files). The "File Revision" byte is a safety net for when features may or may not be added. For example, I plan to later add support for larger images (.obgs and .tbgs currently only support up to 256x256 pixels). This will likely be "Revision 1". These format's aren't too complex, they don't even have compression (even without it, these files are still much smaller than equivalent .pngs), so good luck using them in your projects!
+
+Original Official Documentation Below:
+
+Gravity Games Interactive Custom File Formats
+
+Scoprio 3D Game Engine
+
+Scorpio 3D 1 bit Graphic - .obg
+
+Revision 1:
+
+File Revision - 1 byte
+Uses Inline Palette - 1 bit
+Color 1 transparency - 1 bit
+Color 2 transparency - 1 bit
+Empty - 5 bits
+Inline Pallete entry 1 - 4 bytes, RGBA format, only present if Uses Inline Palette is set to one and color 1 transparency is set to zero
+Inline Pallete entry 2 - 4 bytes, RGBA format, only present if Uses Inline Palette is set to one and color 2 transparency is set to zero
+Image Width - 1 byte
+Image Height - 1 byte
+Image Data - Image Width * Image Height bits
+
+Scorpio 3D Palette File - .spal
+
+Number of colors - 2 bytes
+Color Data - 4 bytes, RGBA format
+
+Scorpio 3D 2 bit Graphic - .tbg
+
+Revision 1:
+
+File Revision - 1 byte
+Uses Inline Palette - 1 bit
+Color 1 transparency - 1 bit
+Color 2 transparency - 1 bit
+Empty - 5 bits
+Inline Pallete entries - 4 bytes each, RGBA format, only present if Uses Inline Palette is set to one and colors 1 and two are only present if their respective color transparency values are set to zero.
+Image Width - 1 byte
+Image Height - 1 byte
+Image Data - Image Width * Image Height * 2 bits
