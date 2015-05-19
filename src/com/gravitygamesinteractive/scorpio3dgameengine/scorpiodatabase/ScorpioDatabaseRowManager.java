@@ -99,8 +99,12 @@ public class ScorpioDatabaseRowManager {
 				if(sdt.columns.get(i).isPrimaryKey()){
 					if(sdt.columns.get(i).isAutoincrement()){
 						if(sdt.columns.get(i).getType() == ScorpioDatabaseColumn.Type.Integer){
-							int value = Integer.parseInt(sdt.columns.get(i).rows.get(sdt.columns.get(i).rows.size()-1))+1;
-							sdt.columns.get(i).rows.add(Integer.toString(value));
+							if(sdt.columns.get(i).rows.size()>0){
+								int value = Integer.parseInt(sdt.columns.get(i).rows.get(sdt.columns.get(i).rows.size()-1))+1;
+								sdt.columns.get(i).rows.add(Integer.toString(value));
+							}else{
+								sdt.columns.get(i).rows.add("0");
+							}
 						}
 						primaryAlreadyAdded=true;
 					}else{

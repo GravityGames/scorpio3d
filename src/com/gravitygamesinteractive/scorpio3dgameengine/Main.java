@@ -32,6 +32,8 @@ public class Main {
 	private Path modsfolder;
 	private Path savesfolder;
 	
+	public static Vector3f cameraPos;
+	
 	/*public static Vertex[] defaultVertices2 = {new Vertex(-150f, 50f, 0f),
 		new Vertex(-150f, -50f, 0f),
 		new Vertex(-50f, -50f, 0f),

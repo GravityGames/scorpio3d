@@ -23,10 +23,10 @@ public class TexturedMesh extends Mesh{
 	//int[] texIDs = new int[3];
 	
 	static TexturedVertex[] defaultVertices = {
-			new TexturedVertex(50f, 50f, 0f, 1f, 1f, 1f, 1f, 0f, 0f),
-			new TexturedVertex(50f, -50f, 0f, 1f, 1f, 1f, 1f, 0f, 1f),
-			new TexturedVertex(150f, -50f, 0f, 1f, 1f, 1f, 1f, 1f, 1f),
-			new TexturedVertex(150f, 50f, 0f, 1f, 1f, 1f, 1f, 1f, 0f)
+			new TexturedVertex(-0.5f, 0.5f, 0f, 1f, 1f, 1f, 1f, 0f, 0f),
+			new TexturedVertex(-0.5f, -0.5f, 0f, 1f, 1f, 1f, 1f, 0f, 1f),
+			new TexturedVertex(0.5f, -0.5f, 0f, 1f, 1f, 1f, 1f, 1f, 1f),
+			new TexturedVertex(0.5f, 0.5f, 0f, 1f, 1f, 1f, 1f, 1f, 0f)
 		};
 	
 	static int[] defaultIndices = {
