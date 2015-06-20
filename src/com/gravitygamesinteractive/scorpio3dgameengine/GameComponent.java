@@ -3,6 +3,8 @@ package com.gravitygamesinteractive.scorpio3dgameengine;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.ShaderProgram;
+
 public class GameComponent {
 	
 	public ArrayList<GameComponent> children = new ArrayList<GameComponent>();
@@ -24,9 +26,9 @@ public class GameComponent {
 		}
 	}
 	
-	public void render(Transform transform, FloatBuffer matrix44Buffer, int modelMatrixLocation){
+	public void render(Transform transform, ShaderProgram shader){
 		for(int i=0; i<numChildren; i++){
-			children.get(i).render(transform, matrix44Buffer, modelMatrixLocation);
+			children.get(i).render(transform, shader);
 		}
 	}
 	

@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.gravitygamesinteractive.scorpio3dgameengine.FontString.Alignment;
-import com.gravitygamesinteractive.scorpio3dgameengine.Mesh;
-import com.gravitygamesinteractive.scorpio3dgameengine.TexturedMesh;
-import com.gravitygamesinteractive.scorpio3dgameengine.TexturedVertex;
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.Mesh;
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.TexturedMesh;
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.TexturedVertex;
 
 public class HUDFontString extends HUDComponent{
 

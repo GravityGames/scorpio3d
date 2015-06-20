@@ -1,4 +1,4 @@
-package com.gravitygamesinteractive.scorpio3dgameengine;
+package com.gravitygamesinteractive.scorpio3dgameengine.rendering;
 
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;

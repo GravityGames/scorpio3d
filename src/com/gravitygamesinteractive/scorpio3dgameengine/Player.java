@@ -4,6 +4,9 @@ import java.nio.FloatBuffer;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.TexturedMesh;
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.TexturedVertex;
+
 public class Player extends GameObject{
 	
 	public static TexturedVertex[] vertices = {

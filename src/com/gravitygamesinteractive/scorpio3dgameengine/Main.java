@@ -20,6 +20,11 @@ import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.ColoredMesh;
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.Mesh;
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.TexturedMesh;
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.Vertex;
+
 public class Main {
 	
 	private static String OS = "Windows";
@@ -227,9 +232,9 @@ public class Main {
             
             //m2.render();
             
-            p.render(matrix44Buffer, modelMatrixLocation);
+            //p.render(matrix44Buffer, modelMatrixLocation);
             
-            p2.render(matrix44Buffer, modelMatrixLocation);
+            //p2.render(matrix44Buffer, modelMatrixLocation);
             
             //m3.render();
             

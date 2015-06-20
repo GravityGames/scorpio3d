@@ -13,6 +13,12 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.ColoredMesh;
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.ColoredVertex;
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.Material;
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.TexturedMesh;
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.TexturedVertex;
+
 public class OBJLoader {
 	
 	public static TexturedMesh loadModel(String filename){
@@ -21,6 +27,7 @@ public class OBJLoader {
 		ArrayList<Material> materials = new ArrayList<Material>();
 		int activeMaterial = 0;
 		ArrayList<Vector2f> texturePositions = new ArrayList<Vector2f>();
+		ArrayList<Vector3f> normalPositions = new ArrayList<Vector3f>();
 		ArrayList<TexturedVertex> vertices = new ArrayList<TexturedVertex>();
 		ArrayList<Integer> indices = new ArrayList<Integer>();
 		ArrayList<Integer> textureIndices = new ArrayList<Integer>();
@@ -49,7 +56,7 @@ public class OBJLoader {
 				}else if(line.startsWith("usemtl")){
 					splitLine = line.split(" ");
 					for(int i=0; i<materials.size(); i++){
-						if(materials.get(i).name.equals(splitLine[1])){
+						if(materials.get(i).getName().equals(splitLine[1])){
 							System.out.println("test");
 							activeMaterial = i;
 							break;
@@ -173,14 +180,14 @@ public class OBJLoader {
 					indices.add(Integer.parseInt(splitLine[2])-1);
 					indices.add(Integer.parseInt(splitLine[3])-1);
 					if(usesMTL){
-						vertexColors.set(Integer.parseInt(splitLine[1])-1, materials.get(activeMaterial).color);
-						vertexColors.set(Integer.parseInt(splitLine[2])-1, materials.get(activeMaterial).color);
-						vertexColors.set(Integer.parseInt(splitLine[3])-1, materials.get(activeMaterial).color);
+						vertexColors.set(Integer.parseInt(splitLine[1])-1, materials.get(activeMaterial).getDiffuseColor());
+						vertexColors.set(Integer.parseInt(splitLine[2])-1, materials.get(activeMaterial).getDiffuseColor());
+						vertexColors.set(Integer.parseInt(splitLine[3])-1, materials.get(activeMaterial).getDiffuseColor());
 					}
 				}else if(line.startsWith("usemtl") && usesMTL){
 					splitLine = line.split(" ");
 					for(int i=0; i<materials.size(); i++){
-						if(materials.get(i).name.equals(splitLine[1])){
+						if(materials.get(i).getName().equals(splitLine[1])){
 							System.out.println("test");
 							activeMaterial = i;
 							break;
@@ -234,11 +241,11 @@ public class OBJLoader {
 				}else if(line.startsWith("Kd")){
 					splitLine = line.split(" ");
 					//materials.add(new Material(materialName, new Vector3f(Float.valueOf(splitLine[1]), Float.valueOf(splitLine[2]), Float.valueOf(splitLine[3]))));
-					materials.get(currentMaterial).setColor(new Vector3f(Float.valueOf(splitLine[1]), Float.valueOf(splitLine[2]), Float.valueOf(splitLine[3])));
+					materials.get(currentMaterial).setDiffuseColor(new Vector3f(Float.valueOf(splitLine[1]), Float.valueOf(splitLine[2]), Float.valueOf(splitLine[3])));
 				}else if(line.startsWith("map_Kd")){
 					splitLine = line.split(" ");
 					if(splitLine[1].endsWith(".png") || splitLine[1].endsWith(".PNG")){
-						materials.get(currentMaterial).setTexture(TextureLoader.loadPNG("assets/textures/" + splitLine[1], GL13.GL_TEXTURE0));
+						materials.get(currentMaterial).setDiffuseTexture(TextureLoader.loadPNG("assets/textures/" + splitLine[1], GL13.GL_TEXTURE0));
 					}
 				}
 			}

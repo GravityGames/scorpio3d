@@ -7,9 +7,9 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.gravitygamesinteractive.scorpio3dgameengine.Main;
-import com.gravitygamesinteractive.scorpio3dgameengine.Mesh;
-import com.gravitygamesinteractive.scorpio3dgameengine.TexturedMesh;
 import com.gravitygamesinteractive.scorpio3dgameengine.Transform;
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.Mesh;
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.TexturedMesh;
 
 public class HUDMeshComponent extends HUDComponent{
 

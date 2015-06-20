@@ -1,4 +1,6 @@
-package com.gravitygamesinteractive.scorpio3dgameengine;
+package com.gravitygamesinteractive.scorpio3dgameengine.rendering;
+
+import org.lwjgl.util.vector.Vector3f;
 
 public class Vertex {
 	
@@ -38,6 +40,10 @@ public class Vertex {
 	
 	public void setZ(float z){
 		position[2]=z;
+	}
+	
+	public Vector3f getPosition(){
+		return new Vector3f(position[0], position[1], position[2]);
 	}
 	
 	public void setPosition(float x, float y){

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.ShaderProgram;
+
 public class GameObject {
 
 	Matrix4f translation;
@@ -48,14 +50,14 @@ public class GameObject {
 
 	}
 
-	public void render(FloatBuffer matrix44Buffer, int modelMatrixLocation){
+	public void render(ShaderProgram shader){
 		
 		for(int i=0; i<numComponents; i++){
-			components.get(i).render(getTransform(), matrix44Buffer, modelMatrixLocation);
+			components.get(i).render(getTransform(), shader);
 		}
 
 		for(int i=0; i<numChildren; i++){
-			children.get(i).render(matrix44Buffer, modelMatrixLocation);
+			children.get(i).render(shader);
 		}
 
 	}

@@ -2,9 +2,14 @@ package com.gravitygamesinteractive.scorpio3dgameengine;
 
 import java.nio.FloatBuffer;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
+
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.Mesh;
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.ShaderProgram;
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.TexturedMesh;
 
 public class MeshComponent extends GameComponent{
 	
@@ -12,15 +17,28 @@ public class MeshComponent extends GameComponent{
 	
 	private Matrix4f modelMatrix;
 	
+	FloatBuffer matrix44Buffer;
+	
 	//private FloatBuffer matrix44Buffer;
 	
 	int textureId;
+	int normalTextureId = -1;
 	
 	//int modelMatrixLocation;
 	
 	public MeshComponent(Mesh mesh, int textureId){
 		this.setMesh(mesh);
 		this.textureId = textureId;
+		matrix44Buffer = BufferUtils.createFloatBuffer(16);
+		//this.matrix44Buffer=matrix44Buffer;
+		//this.modelMatrixLocation=modelMatrixLocation;
+	}
+	
+	public MeshComponent(Mesh mesh, int textureId, int normalTextureId){
+		this.setMesh(mesh);
+		this.textureId = textureId;
+		this.normalTextureId = normalTextureId;
+		matrix44Buffer = BufferUtils.createFloatBuffer(16);
 		//this.matrix44Buffer=matrix44Buffer;
 		//this.modelMatrixLocation=modelMatrixLocation;
 	}
@@ -51,14 +69,20 @@ public class MeshComponent extends GameComponent{
 	}
 	
 	@Override
-	public void render(Transform transform, FloatBuffer matrix44Buffer, int modelMatrixLocation){
+	public void render(Transform transform, ShaderProgram shader){
+		//System.out.println("rendering");
 		modelMatrix.store(matrix44Buffer); matrix44Buffer.flip();
-        GL20.glUniformMatrix4(modelMatrixLocation, false, matrix44Buffer);
+        GL20.glUniformMatrix4(shader.getUniformLocation("modelMatrix"), false, matrix44Buffer);
         if(getMesh() instanceof TexturedMesh){
-        	((TexturedMesh) getMesh()).render(textureId);
+        	if(normalTextureId==-1){
+        		((TexturedMesh) getMesh()).render(textureId);
+        	}else{
+        		((TexturedMesh) getMesh()).render(textureId, normalTextureId);
+        	}
         }else{
         	getMesh().render();
         }
+        
 	}
 
 	public Mesh getMesh() {
@@ -67,6 +91,10 @@ public class MeshComponent extends GameComponent{
 
 	public void setMesh(Mesh mesh) {
 		this.mesh = mesh;
+	}
+	
+	public void setTexture(int texture){
+		this.textureId = texture;
 	}
 
 }

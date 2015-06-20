@@ -8,9 +8,10 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.gravitygamesinteractive.scorpio3dgameengine.GameComponent;
-import com.gravitygamesinteractive.scorpio3dgameengine.TexturedMesh;
-import com.gravitygamesinteractive.scorpio3dgameengine.TexturedVertex;
 import com.gravitygamesinteractive.scorpio3dgameengine.Transform;
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.ShaderProgram;
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.TexturedMesh;
+import com.gravitygamesinteractive.scorpio3dgameengine.rendering.TexturedVertex;
 
 public class FontString extends GameComponent{
 	
@@ -148,9 +149,9 @@ public class FontString extends GameComponent{
 	}
 	
 	@Override
-	public void render(Transform transform, FloatBuffer matrix44Buffer, int modelMatrixLocation){
-		modelMatrix.store(matrix44Buffer); matrix44Buffer.flip();
-        GL20.glUniformMatrix4(modelMatrixLocation, false, matrix44Buffer);
+	public void render(Transform transform, ShaderProgram shader){
+		modelMatrix.store(shader.matrix44Buffer); shader.matrix44Buffer.flip();
+        GL20.glUniformMatrix4(GL20.glGetUniformLocation(shader.program, "modelMatrix"), false, shader.matrix44Buffer);
 		mesh.render(font);
 	}
 	
