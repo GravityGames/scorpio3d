@@ -17,8 +17,12 @@ import de.matthiasmann.twl.utils.PNGDecoder;
 import de.matthiasmann.twl.utils.PNGDecoder.Format;
 
 public class TextureLoader {
-
+	
 	public static int loadPNG(String filename, int textureUnit){
+		return loadPNG(filename, textureUnit, "GL_NEAREST", "GL_NEAREST");
+	}
+
+	public static int loadPNG(String filename, int textureUnit, String nearFilter, String farFilter){
 		ByteBuffer buf = null;
 		int tWidth = 0;
 		int tHeight = 0;
@@ -61,7 +65,10 @@ public class TextureLoader {
 		// Upload the texture data and generate mip maps (for scaling)
 		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, tWidth, tHeight, 0,
 				GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buf);
-		GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
+		
+		if(farFilter == "GL_NEAREST_MIPMAP_NEAREST" || farFilter == "GL_NEAREST_MIPMAP_LINEAR" || farFilter == "GL_LINEAR_MIPMAP_NEAREST" || farFilter == "GL_LINEAR_MIPMAP_LINEAR"){
+			GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
+		}
 
 		// Setup the ST coordinate system
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_REPEAT);
@@ -74,10 +81,53 @@ public class TextureLoader {
 		//		GL11.GL_LINEAR_MIPMAP_LINEAR);
 		
 		// Setup what to do when the texture has to be scaled
-				GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER,
-						GL11.GL_NEAREST);
-				GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
-						GL11.GL_NEAREST);
+		switch(nearFilter){
+		case "GL_NEAREST":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER,
+					GL11.GL_NEAREST);
+			break;
+		case "GL_LINEAR":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER,
+					GL11.GL_LINEAR);
+			break;
+		default:
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER,
+					GL11.GL_NEAREST);
+			break;
+		}
+		
+		switch(farFilter){
+		case "GL_NEAREST":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+					GL11.GL_NEAREST);
+			break;
+		case "GL_LINEAR":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+					GL11.GL_LINEAR);
+			break;
+		case "GL_NEAREST_MIPMAP_NEAREST":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+					GL11.GL_NEAREST_MIPMAP_NEAREST);
+			break;
+		case "GL_NEAREST_MIPMAP_LINEAR":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+					GL11.GL_NEAREST_MIPMAP_LINEAR);
+			break;
+		case "GL_LINEAR_MIPMAP_NEAREST":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+					GL11.GL_LINEAR_MIPMAP_NEAREST);
+			break;
+		case "GL_LINEAR_MIPMAP_LINEAR":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+					GL11.GL_LINEAR_MIPMAP_LINEAR);
+			break;
+		default:
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+					GL11.GL_NEAREST);
+			break;
+		}
+				
+				
 
 		//this.exitOnGLError("loadPNGTexture");
 
@@ -155,10 +205,14 @@ public class TextureLoader {
 	}
 
 	public static int loadOBG(String filename, int textureUnit){
-		return loadOBG(filename, textureUnit, null);
+		return loadOBG(filename, textureUnit, "GL_NEAREST", "GL_NEAREST", null);
+	}
+	
+	public static int loadOBG(String filename, int textureUnit, String nearFilter, String farFilter){
+		return loadOBG(filename, textureUnit, nearFilter, farFilter, null);
 	}
 
-	public static int loadOBG(String filename, int textureUnit, ScorpioPalette sp){
+	public static int loadOBG(String filename, int textureUnit, String nearFilter, String farFilter, ScorpioPalette sp){
 		ByteBuffer buf = null;
 		int tWidth = 0;
 		int tHeight = 0;
@@ -367,17 +421,59 @@ public class TextureLoader {
 		// Upload the texture data and generate mip maps (for scaling)
 		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, tWidth, tHeight, 0,
 				GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buf);
-		GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
+		if(farFilter == "GL_NEAREST_MIPMAP_NEAREST" || farFilter == "GL_NEAREST_MIPMAP_LINEAR" || farFilter == "GL_LINEAR_MIPMAP_NEAREST" || farFilter == "GL_LINEAR_MIPMAP_LINEAR"){
+			GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
+		}
 
 		// Setup the ST coordinate system
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_REPEAT);
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_REPEAT);
 
-		// Setup what to do when the texture has to be scaled
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER,
-				GL11.GL_NEAREST);
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
-				GL11.GL_LINEAR_MIPMAP_LINEAR);
+		switch(nearFilter){
+		case "GL_NEAREST":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER,
+					GL11.GL_NEAREST);
+			break;
+		case "GL_LINEAR":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER,
+					GL11.GL_LINEAR);
+			break;
+		default:
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER,
+					GL11.GL_NEAREST);
+			break;
+		}
+		
+		switch(farFilter){
+		case "GL_NEAREST":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+					GL11.GL_NEAREST);
+			break;
+		case "GL_LINEAR":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+					GL11.GL_LINEAR);
+			break;
+		case "GL_NEAREST_MIPMAP_NEAREST":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+					GL11.GL_NEAREST_MIPMAP_NEAREST);
+			break;
+		case "GL_NEAREST_MIPMAP_LINEAR":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+					GL11.GL_NEAREST_MIPMAP_LINEAR);
+			break;
+		case "GL_LINEAR_MIPMAP_NEAREST":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+					GL11.GL_LINEAR_MIPMAP_NEAREST);
+			break;
+		case "GL_LINEAR_MIPMAP_LINEAR":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+					GL11.GL_LINEAR_MIPMAP_LINEAR);
+			break;
+		default:
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+					GL11.GL_NEAREST);
+			break;
+		}
 
 		//this.exitOnGLError("loadPNGTexture");
 
@@ -385,10 +481,14 @@ public class TextureLoader {
 	}
 	
 	public static int loadTBG(String filename, int textureUnit){
-		return loadTBG(filename, textureUnit, null);
+		return loadTBG(filename, textureUnit, "GL_NEAREST", "GL_NEAREST", null);
 	}
 	
-	public static int loadTBG(String filename, int textureUnit, ScorpioPalette sp){
+	public static int loadTBG(String filename, int textureUnit, String nearFilter, String farFilter){
+		return loadTBG(filename, textureUnit, nearFilter, farFilter, null);
+	}
+	
+	public static int loadTBG(String filename, int textureUnit, String nearFilter, String farFilter, ScorpioPalette sp){
 		ByteBuffer buf = null;
 		int tWidth = 0;
 		int tHeight = 0;
@@ -572,7 +672,9 @@ public class TextureLoader {
 		// Upload the texture data and generate mip maps (for scaling)
 		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, tWidth, tHeight, 0,
 				GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buf);
-		GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
+		if(farFilter == "GL_NEAREST_MIPMAP_NEAREST" || farFilter == "GL_NEAREST_MIPMAP_LINEAR" || farFilter == "GL_LINEAR_MIPMAP_NEAREST" || farFilter == "GL_LINEAR_MIPMAP_LINEAR"){
+			GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
+		}
 
 		// Setup the ST coordinate system
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_REPEAT);
@@ -585,10 +687,51 @@ public class TextureLoader {
 //				GL11.GL_LINEAR_MIPMAP_LINEAR);
 		
 		// Setup what to do when the texture has to be scaled
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER,
-				GL11.GL_NEAREST);
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
-				GL11.GL_NEAREST);
+		switch(nearFilter){
+		case "GL_NEAREST":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER,
+					GL11.GL_NEAREST);
+			break;
+		case "GL_LINEAR":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER,
+					GL11.GL_LINEAR);
+			break;
+		default:
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER,
+					GL11.GL_NEAREST);
+			break;
+		}
+		
+		switch(farFilter){
+		case "GL_NEAREST":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+					GL11.GL_NEAREST);
+			break;
+		case "GL_LINEAR":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+					GL11.GL_LINEAR);
+			break;
+		case "GL_NEAREST_MIPMAP_NEAREST":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+					GL11.GL_NEAREST_MIPMAP_NEAREST);
+			break;
+		case "GL_NEAREST_MIPMAP_LINEAR":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+					GL11.GL_NEAREST_MIPMAP_LINEAR);
+			break;
+		case "GL_LINEAR_MIPMAP_NEAREST":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+					GL11.GL_LINEAR_MIPMAP_NEAREST);
+			break;
+		case "GL_LINEAR_MIPMAP_LINEAR":
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+					GL11.GL_LINEAR_MIPMAP_LINEAR);
+			break;
+		default:
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+					GL11.GL_NEAREST);
+			break;
+		}
 
 		//this.exitOnGLError("loadPNGTexture");
 
